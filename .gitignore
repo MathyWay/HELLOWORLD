@@ -1,5 +1,3 @@
-$ cat .gitignore
-
 *.rbc
 capybara-*.html
 .rspec
