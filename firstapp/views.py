@@ -3,7 +3,13 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("Hello mthfckr")
+    header = "Personal Data"  # обычная переменная
+    langs = ["English", "German", "Spanish"]  # массив
+    user = {"name": "Tom", "age": 23}  # словарь
+    addr = ("Абрикосовая", 23, 45)  # кортеж
+
+    data = {"header": header, "langs": langs, "user": user, "address": addr}
+    return render(request, "index.html", context=data)
 
 
 def about(request):
@@ -19,6 +25,6 @@ def product(request, productid):
     return HttpResponse(output)
 
 
-def users(request, id, name):
-    output = "<h2></h2>User<h3>id: {0}  name: {1}</h3>".format(id, name)
+def users(request, idd, name):
+    output = "<h2></h2>User<h3>id: {0}  name: {1}</h3>".format(idd, name)
     return HttpResponse(output)
