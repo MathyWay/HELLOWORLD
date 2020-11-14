@@ -4,7 +4,7 @@ import sqlite3
 
 
 def index(request):
-    header = "Personal Data"  # обычная переменная
+    header = "Hello KATE and KIRA"  # обычная переменная
     langs = ["English", "German", "Spanish"]  # массив
     user = {"name": "Tom", "age": 23}  # словарь
     addr = ("Абрикосовая", 23, 45)  # кортеж
@@ -26,9 +26,10 @@ def product(request, productid):
     return HttpResponse(output)
 
 
-def users(request, name, age):
+def init_users(request, name, age):
     con = sqlite3.connect("users.db")
     cur = con.cursor()
+    cur.execute("""CREATE TABLE IF NOT EXISTS users (name text, age integer)""")
     cur.execute('INSERT INTO users values (?, ?)', (name, age))
     con.commit()
     con.close()
@@ -40,6 +41,7 @@ def show_users(request):
     con = sqlite3.connect("users.db")
     con.row_factory = sqlite3.Row
     cur = con.cursor()
+    cur.execute("""CREATE TABLE IF NOT EXISTS users (name text, age integer)""")
     output = ''
     for i in cur.execute('SELECT * FROM users'):
         output += "Name: " + str(i[0]) + " with age:" + str(i[1]) + "\n"
