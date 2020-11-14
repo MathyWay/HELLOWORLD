@@ -44,6 +44,6 @@ def show_users(request):
     cur.execute("""CREATE TABLE IF NOT EXISTS users (name text, age integer)""")
     output = ''
     for i in cur.execute('SELECT * FROM users'):
-        output += "Name: " + str(i[0]) + " with age:" + str(i[1]) + "\n"
+        output += "Name: " + str(i[0]) + " with age:" + str(i[1]) + " "
     con.close()
     return HttpResponse(output)
