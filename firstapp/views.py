@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+import sqlite3
 
 
 def index(request):
@@ -25,6 +26,22 @@ def product(request, productid):
     return HttpResponse(output)
 
 
-def users(request, idd, name):
-    output = "<h2></h2>User<h3>id: {0}  name: {1}</h3>".format(idd, name)
+def users(request, name, age):
+    con = sqlite3.connect("users.db")
+    cur = con.cursor()
+    cur.execute('INSERT INTO users values (?, ?)', (name, age))
+    con.commit()
+    con.close()
+    output = str(name) + " age: {0}</h2>".format(age)
+    return HttpResponse(output)
+
+
+def show_users(request):
+    con = sqlite3.connect("users.db")
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    output = ''
+    for i in cur.execute('SELECT * FROM users'):
+        output += "Name: " + str(i[0]) + " with age:" + str(i[1]) + "\n"
+    con.close()
     return HttpResponse(output)

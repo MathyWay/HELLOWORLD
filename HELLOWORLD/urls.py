@@ -23,5 +23,6 @@ urlpatterns = [
     path('contact', views.contact, name='contact'),
     path('admin/', admin.site.urls),
     re_path(r'^products/(?P<productid>\d+)/', views.product),
-    re_path(r'^users/(?P<id>\d+)/(?P<name>\D+)/', views.users),
+    re_path(r'^users/init/(?P<name>\D+)/(?P<age>\d+)', views.users),
+    path('users/show', views.show_users),
 ]
