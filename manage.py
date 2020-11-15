@@ -2,9 +2,17 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import sqlite3
 
 
 def main():
+
+    """Checking for DataBase"""
+    con = sqlite3.connect("users.db")
+    cur = con.cursor()
+    cur.execute("""CREATE TABLE IF NOT EXISTS users (name text, age integer)""")
+    con.close()
+
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'HELLOWORLD.settings')
     try:
