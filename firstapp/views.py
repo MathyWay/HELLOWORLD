@@ -42,6 +42,6 @@ def show_users(request):
     cur = con.cursor()
     output = ''
     for i in cur.execute('SELECT * FROM users'):
-        output += "Name: " + str(i[0]) + " with age:" + str(i[1]) + " "
+        output += "Name: {0}, age: {1}  ".format(i['name'], i['age'])
     con.close()
     return HttpResponse(output)
