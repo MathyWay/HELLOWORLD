@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-import sqlite3
+from dbwork import UserCl, DataBase, BASE_NAME
 
 
 def index(request):
@@ -26,22 +26,14 @@ def product(request, productid):
     return HttpResponse(output)
 
 
-def init_users(request, name, age):
-    con = sqlite3.connect("users.db")
-    cur = con.cursor()
-    cur.execute('INSERT INTO users values (?, ?)', (name, age))
-    con.commit()
-    con.close()
-    output = str(name) + " age: {0} user added</h2>".format(age)
+def init_users(request, ids, name, age):
+    user = UserCl(int(ids), name, int(age))
+    base = DataBase(BASE_NAME)
+    base.init_data_base()
+    base.init_user(user)
+    output = str(name) + " age: {0} with id {1} user added</h2>".format(age, ids)
     return HttpResponse(output)
 
 
 def show_users(request):
-    con = sqlite3.connect("users.db")
-    con.row_factory = sqlite3.Row
-    cur = con.cursor()
-    output = ''
-    for i in cur.execute('SELECT * FROM users'):
-        output += "Name: {0}, age: {1}  ".format(i['name'], i['age'])
-    con.close()
-    return HttpResponse(output)
+    return HttpResponse(DataBase(BASE_NAME).take_users('ONE', 'Ann'))
