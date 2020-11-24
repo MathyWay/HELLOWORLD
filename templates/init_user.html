@@ -3,14 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Init-user</title>
+    <base href="http://127.0.0.1:8000/" target="_self">
 </head>
 <body>
+<ul>
+    <li><a href=""> Home</a></li>
+    <li><a href="users/show"> Show all users</a></li>
+    <li><a href="search-form"> Searching users</a></li>
+    <li><a href="init-user"> Edit new user</a></li>
+</ul>
     <form action="/inited/" method="post"> {% csrf_token %}
-        <p> id:<input type="number" name="id" >
+        <p> id:<label>
+            <input type="number" name="id" >
+        </label>
         </p>
-        <p> Name:<input type="text" name="Name">
+        <p> Name:<label>
+            <input type="text" name="Name">
+        </label>
         </p>
-        <p> Age:<input type="number" name="Age">
+        <p> Age:<label>
+            <input type="number" name="Age">
+        </label>
         </p>
         <input type="submit" value="Init">
     </form>

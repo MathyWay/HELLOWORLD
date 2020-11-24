@@ -4,13 +4,7 @@ from dbwork import UserCl, DataBase, BASE_NAME
 
 
 def index(request):
-    header = "Hello KATE and KIRA"  # обычная переменная
-    langs = ["English", "German", "Spanish"]  # массив
-    user = {"name": "Tom", "age": 23}  # словарь
-    addr = ("Абрикосовая", 23, 45)  # кортеж
-
-    data = {"header": header, "langs": langs, "user": user, "address": addr}
-    return render(request, "index.html", context=data)
+    return render(request, "index.html")
 
 
 def about(request):

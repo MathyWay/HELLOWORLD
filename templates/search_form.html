@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Search</title>
+    <base href="http://127.0.0.1:8000/" target="_self">
 </head>
 <body>
+<ul>
+    <li><a href=""> Home</a></li>
+    <li><a href="users/show"> Show all users</a></li>
+    <li><a href="search-form"> Searching users</a></li>
+    <li><a href="init-user"> Edit new user</a></li>
+</ul>
     <form action="/search/" method="get">
         <p> Type of search ONE/MANY/ALL:
         <input type="text" name="type" >
