@@ -63,4 +63,5 @@ def search(request):
 
 
 def show_users(request):
-    return HttpResponse(DataBase(BASE_NAME).take_users())
+    return render(request, 'search_results_many.html',
+                      {'users': DataBase(BASE_NAME).take_users(), 'query': ''})
