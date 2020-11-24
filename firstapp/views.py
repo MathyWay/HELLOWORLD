@@ -26,13 +26,16 @@ def product(request, productid):
     return HttpResponse(output)
 
 
-def init_users(request, ids, name, age):
-    user = UserCl(int(ids), name, int(age))
-    base = DataBase(BASE_NAME)
-    base.init_data_base()
-    base.init_user(user)
-    output = str(name) + " age: {0} with id {1} user added</h2>".format(age, ids)
-    return HttpResponse(output)
+def init_users1(request):
+    return render(request, 'init_user.html')
+
+
+def inited_user(request):
+    DataBase(BASE_NAME).init_data_base()
+    DataBase(BASE_NAME).init_user(UserCl(int(request.POST['id']), request.POST['Name'], int(request.POST['Age'])))
+    return HttpResponse("User: " + request.POST['Name'] +
+                        " with id {0} and Age: {1} added</h2>".format(int(request.POST['id']),
+                                                                      int(request.POST['Age'])))
 
 
 def search_form(request):
@@ -40,20 +43,23 @@ def search_form(request):
 
 
 def search(request):
-    if 'q' in request.GET and request.GET['q'] and 'type' in request.GET and request.GET['type']:
-        q = request.GET['q']
-        types = request.GET['type']
-        users = DataBase(BASE_NAME).take_users(types, q)
-        if type(users) == UserCl:
-            return render(request, 'search_results.html',
-                          {'users': users, 'query': q})
-        elif type(users) == list:
-            return render(request, 'search_results_many.html',
-                          {'users': users, 'query': q})
-        else:
-            return HttpResponse('Wrong input')
+    q = request.GET['q']
+    types = request.GET['type']
+    types = types.strip()
+    if types == '' or types == 'ALL':
+        users = DataBase(BASE_NAME).take_users()
     else:
-        return HttpResponse('Please submit a search term.')
+        users = DataBase(BASE_NAME).take_users(types, q)
+    if type(users) == UserCl:
+        return render(request, 'search_results.html',
+                      {'users': users, 'query': q})
+    elif type(users) == list:
+        return render(request, 'search_results_many.html',
+                      {'users': users, 'query': q})
+    elif users == -1:
+        return HttpResponse('There is now such user')
+    else:
+        return HttpResponse('Wrong input')
 
 
 def show_users(request):

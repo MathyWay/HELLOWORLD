@@ -57,6 +57,7 @@ class DataBase:
         # Checking for DataBase
         con = sqlite3.connect(self.name, detect_types=sqlite3.PARSE_DECLTYPES)
         cur = con.cursor()
+        cur.execute("""CREATE TABLE IF NOT EXISTS users (p user)""")
         """ Initial Complete"""
         ####################################################
 
@@ -74,6 +75,10 @@ class DataBase:
 
         con = sqlite3.connect(BASE_NAME, detect_types=sqlite3.PARSE_DECLTYPES)
         cur = con.cursor()
+        cur.execute("""CREATE TABLE IF NOT EXISTS users (p user)""")
+        """ Initial Complete"""
+        ####################################################
+
         cur.execute('SELECT * FROM users')
         user_base = [i[0] for i in cur.fetchall()]
         if type_of_take == 'ONE':
@@ -85,7 +90,7 @@ class DataBase:
             else:
                 cur.close()
                 con.close()
-                return 0
+                return -1
         elif type_of_take == 'MANY':
             search_names = list(names.split(';'))
             ret = []
@@ -95,6 +100,7 @@ class DataBase:
                         ret.append(a)
             cur.close()
             con.close()
+            del user_base
             return ret
         elif type_of_take == 'ALL':
             cur.close()
