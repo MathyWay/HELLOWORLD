@@ -87,7 +87,15 @@ class DataBase:
                 con.close()
                 return 0
         elif type_of_take == 'MANY':
-            print('Buy')
+            search_names = list(names.split(';'))
+            ret = []
+            for i in search_names:
+                for a in user_base:
+                    if a.Name == i.strip():
+                        ret.append(a)
+            cur.close()
+            con.close()
+            return ret
         elif type_of_take == 'ALL':
             cur.close()
             con.close()

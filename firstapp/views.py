@@ -35,5 +35,26 @@ def init_users(request, ids, name, age):
     return HttpResponse(output)
 
 
+def search_form(request):
+    return render(request, 'search_form.html')
+
+
+def search(request):
+    if 'q' in request.GET and request.GET['q'] and 'type' in request.GET and request.GET['type']:
+        q = request.GET['q']
+        types = request.GET['type']
+        users = DataBase(BASE_NAME).take_users(types, q)
+        if type(users) == UserCl:
+            return render(request, 'search_results.html',
+                          {'users': users, 'query': q})
+        elif type(users) == list:
+            return render(request, 'search_results_many.html',
+                          {'users': users, 'query': q})
+        else:
+            return HttpResponse('Wrong input')
+    else:
+        return HttpResponse('Please submit a search term.')
+
+
 def show_users(request):
-    return HttpResponse(DataBase(BASE_NAME).take_users('ONE', 'Ann'))
+    return HttpResponse(DataBase(BASE_NAME).take_users())
