@@ -28,7 +28,7 @@ class Userview:
                       {'users': users, 'query': q})
 
 
-class Userclass:
+class UserActions:
 
     @staticmethod
     def init_user(request):
