@@ -1,4 +1,5 @@
 import sqlite3
+from settings import CREATE_TABLE_SQL, INSERT_USER_SQL
 
 BASE_NAME = 'users1.db'
 
@@ -34,78 +35,63 @@ class DataBase:
         self.name = name
 
     def init_data_base(self):
-        # Register the adapter
-        sqlite3.register_adapter(UserCl, adapt_user)
-
-        # Register the converter
-        sqlite3.register_converter("user", convert_user)
 
         # Checking for DataBase
-        con = sqlite3.connect(self.name, detect_types=sqlite3.PARSE_DECLTYPES)
-        cur = con.cursor()
-        cur.execute("""CREATE TABLE IF NOT EXISTS users (p user)""")
-        cur.close()
-        con.close()
+        con = sqlite3.connect(self.name)
+        with con:
+            con.execute(CREATE_TABLE_SQL)
 
-    def init_user(self, user):
-        # Register the adapter
-        sqlite3.register_adapter(UserCl, adapt_user)
-
-        # Register the converter
-        sqlite3.register_converter("user", convert_user)
+    def init_user(self, name, age):
 
         # Checking for DataBase
-        con = sqlite3.connect(self.name, detect_types=sqlite3.PARSE_DECLTYPES)
-        cur = con.cursor()
-        cur.execute("""CREATE TABLE IF NOT EXISTS users (p user)""")
-        """ Initial Complete"""
+        con = sqlite3.connect(self.name)
+        with con:
+            con.execute(CREATE_TABLE_SQL)
+        # Initial Complete"""
         ####################################################
-
-        cur.execute('INSERT INTO users (p) values (?)', (user,))
+        cur = con.cursor()
+        cur.execute(INSERT_USER_SQL, (name, age))
         con.commit()
-        cur.close()
-        con.close()
+        return UserCl(cur.lastrowid, name, age)
 
-    def take_users(self, type_of_take='ALL', names=''):
-        # Register the adapter
-        sqlite3.register_adapter(UserCl, adapt_user)
+    @staticmethod
+    def take_users(type_of_take='ALL', names=''):
 
-        # Register the converter
-        sqlite3.register_converter("user", convert_user)
-
-        con = sqlite3.connect(BASE_NAME, detect_types=sqlite3.PARSE_DECLTYPES)
-        cur = con.cursor()
-        cur.execute("""CREATE TABLE IF NOT EXISTS users (p user)""")
+        con = sqlite3.connect(BASE_NAME)
+        with con:
+            con.execute(CREATE_TABLE_SQL)
         """ Initial Complete"""
         ####################################################
 
-        cur.execute('SELECT * FROM users')
-        user_base = [i[0] for i in cur.fetchall()]
+        cur = con.cursor()
         if type_of_take == 'ONE':
-            for i in user_base:
-                if i.Name == names:
-                    cur.close()
-                    con.close()
-                    return i
-            else:
-                cur.close()
-                con.close()
-                return -1
-        elif type_of_take == 'MANY':
-            search_names = list(names.split(';'))
-            ret = []
-            for i in search_names:
-                for a in user_base:
-                    if a.Name == i.strip():
-                        ret.append(a)
+            cur.execute('SELECT rowid, name, age from users where name = (?)', (list(names.split(';'))[0],))
+            ret = cur.fetchall()
             cur.close()
             con.close()
-            del user_base
+            return ret
+        elif type_of_take == 'MANY':
+            print(list(names.split(';')))
+            i = '(?'
+            a = 1
+            while a < len((list(names.split(';')))):
+                i += ',?'
+                a += 1
+            i += ')'
+            cur.execute('SELECT rowid, name, age from users where name in {}'.format(i), list(names.split(';')))
+            ret = cur.fetchall()
+            cur.close()
+            con.close()
             return ret
         elif type_of_take == 'ALL':
+            cur.execute('SELECT rowid, name, age from users')
+            ret = cur.fetchall()
             cur.close()
             con.close()
-            return user_base
+            print(ret)
+            return ret
         else:
+            cur.close()
+            con.close()
             print('Warning')
             return 0

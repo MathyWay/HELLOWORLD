@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search-result</title>
+    <title>Inited-user</title>
     <base href="http://127.0.0.1:8000/" target="_self">
 </head>
 <body>
@@ -12,17 +12,9 @@
     <li><a href="search-form"> Searching users</a></li>
     <li><a href="init-user"> Edit new user</a></li>
 </ul>
-<p>You searched for: <strong>{{ query }}</strong></p>
-
-{% if users %}
-    {% for user in users %}
-    <ul>
-        <li>id: {{ user.0 }}</li> <li>Name: {{ user.1 }}</li> <li>Age: {{ user.2 }}</li>
-    </ul>
-    {% endfor %}
-
-{% else %}
-    <p>No books matched your search criteria.</p>
-{% endif %}
-</body>
-</html>
+<p>You inited user:</p>
+<ul>
+    <li>id: {{ user.id }}</li>
+    <li>Name: {{ user.Name }}</li>
+    <li>Age: {{ user.Age }}</li>
+</ul>
