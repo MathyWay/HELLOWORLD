@@ -16,15 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from firstapp import views
+from views import Userview, InitUser
+
 urlpatterns = [
     path('', views.index, name='home'),
     path('about', views.about, name='about'),
     path('contact', views.contact, name='contact'),
     path('admin/', admin.site.urls),
     re_path(r'^products/(?P<productid>\d+)/', views.product),
-    path('users/show', views.show_users),
-    re_path(r'^search-form/$', views.search_form),
-    re_path(r'^search/$', views.search),
-    re_path(r'^init-user/$', views.init_users1),
-    re_path(r'^inited/$', views.inited_user),
+    path('users/show', Userview.show_users),
+    re_path(r'^search-form/$', Userview.search_form),
+    re_path(r'^search/$', Userview.search),
+    re_path(r'^init-user/$', InitUser.init_user),
+    re_path(r'^inited/$', InitUser.inited_user),
 ]
