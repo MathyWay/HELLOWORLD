@@ -1,5 +1,4 @@
 from django.shortcuts import render
-# from django.http import HttpResponse
 from dbwork import DataBase, BASE_NAME
 
 
@@ -29,7 +28,7 @@ class Userview:
                       {'users': users, 'query': q})
 
 
-class InitUser:
+class Userclass:
 
     @staticmethod
     def init_user(request):
@@ -42,6 +41,18 @@ class InitUser:
                       {'user': DataBase(BASE_NAME).init_user(request.POST['Name'], int(request.POST['Age']))
                        }
                       )
+
+    @staticmethod
+    def init_delete_user(request):
+        return render(request, 'delete_init.html')
+
+    @staticmethod
+    def deleted_user(request):
+        user = DataBase(BASE_NAME).del_user(int(request.POST['ids']), request.POST['Name'])
+        if user.id != -1:
+            return render(request, 'deleted_user.html', {'user': user, 'type': True})
+        else:
+            return render(request, 'deleted_user.html', {'user': user, 'type': False})
 
 
 def index(request):

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search-result</title>
+    <title>Init-user</title>
     <base href="http://127.0.0.1:8000/" target="_self">
 </head>
 <body>
@@ -13,18 +13,16 @@
     <li><a href="init-user"> Edit new user</a></li>
     <li><a href="delete-init"> Delete user</a></li>
 </ul>
-<p>You searched for: <strong>{{ query }}</strong></p>
-
-{% if users %}
-    <p>Found user(s)</p>
-    {% for user in users %}
-    <ul>
-        <li>id: {{ user.0 }}</li> <li>Name: {{ user.1 }}</li> <li>Age: {{ user.2 }}</li>
-    </ul>
-    {% endfor %}
-
-{% else %}
-    <p>There are no such users</p>
-{% endif %}
+    <form action="/deleted-user/" method="post"> {% csrf_token %}
+        <p> Name:<label>
+            <input type="text" name="Name">
+        </label>
+        </p>
+        <p> With id:<label>
+            <input type="number" name="ids">
+        </label>
+        </p>
+        <input type="submit" value="Delete">
+    </form>
 </body>
 </html>

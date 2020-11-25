@@ -1,5 +1,5 @@
 import sqlite3
-from settings import CREATE_TABLE_SQL, INSERT_USER_SQL
+from settings import CREATE_TABLE_SQL, INSERT_USER_SQL, DELETE_USER_SQL
 
 BASE_NAME = 'users1.db'
 
@@ -15,18 +15,6 @@ class UserCl:
 
     def __str__(self):
         return "id:%i, Name %s, Age %i " % (self.id, self.Name, self.Age)
-
-
-def adapt_user(user):
-    return ("%i;%s;%i" % (user.id, user.Name, user.Age)).encode('ascii')
-
-
-def convert_user(s):
-    ids, name, age = list(s.split(b";"))
-    ids = int(ids.decode("utf-8"))
-    name = name.decode("utf-8")
-    age = int(age.decode("utf-8"))
-    return UserCl(ids, name, age)
 
 
 class DataBase:
@@ -71,7 +59,6 @@ class DataBase:
             con.close()
             return ret
         elif type_of_take == 'MANY':
-            print(list(names.split(';')))
             i = '(?'
             a = 1
             while a < len((list(names.split(';')))):
@@ -88,10 +75,31 @@ class DataBase:
             ret = cur.fetchall()
             cur.close()
             con.close()
-            print(ret)
             return ret
         else:
             cur.close()
             con.close()
             print('Warning')
             return 0
+
+    def del_user(self, ids, name):
+        # Checking for DataBase
+        con = sqlite3.connect(self.name)
+        with con:
+            con.execute(CREATE_TABLE_SQL)
+        # Initial Complete"""
+        ####################################################
+        cur = con.cursor()
+        cur.execute('SELECT rowid, name, age from users where name = (?) and rowid = (?)',
+                    (list(name.split(';'))[0], ids))
+        fetch = cur.fetchone()
+        if fetch:
+            lastid = fetch[0]
+            age = fetch[2]
+            cur.execute(DELETE_USER_SQL, (ids, name))
+            con.commit()
+            cur.close()
+            con.close()
+            return UserCl(lastid, name, age)
+        else:
+            return UserCl(-1, '', 0)

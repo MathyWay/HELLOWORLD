@@ -64,7 +64,7 @@ WSGI_APPLICATION = 'HELLOWORLD.wsgi.application'
 
 CREATE_TABLE_SQL = """CREATE TABLE IF NOT EXISTS users (name text not null, age int not null)"""
 INSERT_USER_SQL = 'INSERT INTO users (name, age) values (?, ?)'
-
+DELETE_USER_SQL = 'DELETE from users where rowid = (?) and name = (?)'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
