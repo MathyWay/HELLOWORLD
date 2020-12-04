@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, re_path
 from firstapp import views
-from views import Userview, UserActions
+from views import Userview, UserActions, MessageViewActions
 
 urlpatterns = [
     path('', views.index, name='home'),
@@ -13,4 +13,8 @@ urlpatterns = [
     re_path(r'^inited/$', UserActions.inited_user),
     re_path(r'^delete-init/$', UserActions.init_delete_user),
     re_path(r'^deleted-user/$', UserActions.deleted_user),
+    re_path(r'^init_show_messages/$', MessageViewActions.init_show_messages),
+    re_path(r'^send_message/$', MessageViewActions.send_message),
+    re_path(r'^sent_message/$', MessageViewActions.sent_message),
+    re_path(r'^show_messages/$', MessageViewActions.show_messages),
 ]

@@ -1,5 +1,6 @@
 import sqlite3
-from settings import CREATE_TABLE_SQL, INSERT_USER_SQL, DELETE_USER_SQL
+from settings import CREATE_TABLE_SQL, INSERT_USER_SQL, DELETE_USER_SQL, CREATE_MESSAGE_TABLE_SQL, SEND_MESSAGE_SQL, \
+    SHOW_MESSAGES_SQL, SELECT_USER_SQL
 
 BASE_NAME = 'users1.db'
 
@@ -17,7 +18,7 @@ class UserCl:
         return "id:%i, Name %s, Age %i " % (self.id, self.Name, self.Age)
 
 
-class DataBase:
+class DataBaseUsers:
 
     def __init__(self, name):
         self.name = name
@@ -103,3 +104,50 @@ class DataBase:
             return UserCl(lastid, name, age)
         else:
             return UserCl(-1, '', 0)
+
+    def take_user_name(self, ids):
+        con = sqlite3.connect(self.name)
+        with con:
+            con.execute(CREATE_TABLE_SQL)
+
+        cur = con.cursor()
+        cur.execute(SELECT_USER_SQL, ids)
+        ret = cur.fetchone()
+        if ret:
+            ret = ret[0]
+        else:
+            ret = 0
+        cur.close()
+        con.close()
+        if ret:
+            return ret
+        else:
+            return -1
+
+
+class DataBaseMessages:
+    def __init__(self, basename):
+        self.basename = basename
+
+    def init_dialog(self, idhost, idfriend):
+        con = sqlite3.connect(self.basename)
+        with con:
+            con.execute(CREATE_MESSAGE_TABLE_SQL.format(str(idhost)))
+            con.execute(CREATE_MESSAGE_TABLE_SQL.format(str(idfriend)))
+
+    def send_message(self, idhost, idfriend, message):
+        self.init_dialog(idhost, idfriend)
+        con = sqlite3.connect(self.basename)
+        with con:
+            con.execute(SEND_MESSAGE_SQL.format(str(idhost)), (idfriend, 'receive', message))
+            con.execute(SEND_MESSAGE_SQL.format(str(idfriend)), (idhost, 'sent', message))
+
+    def show_messages(self, idhost, idfriend):
+        self.init_dialog(idhost, idfriend)
+        con = sqlite3.connect(self.basename)
+        cur = con.cursor()
+        cur.execute(SHOW_MESSAGES_SQL.format(str(idhost), idfriend))
+        ret = cur.fetchall()
+        cur.close()
+        con.close()
+        return ret

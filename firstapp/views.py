@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from dbwork import DataBase, BASE_NAME
+from dbwork import DataBaseUsers, BASE_NAME, DataBaseMessages
+from settings import MESSAGE_BASE
 
 
 class Userview:
@@ -11,7 +12,7 @@ class Userview:
     @staticmethod
     def show_users(request):
         return render(request, 'search_results_many.html',
-                      {'users': DataBase(BASE_NAME).take_users(), 'query': ''})
+                      {'users': DataBaseUsers(BASE_NAME).take_users(), 'query': ''})
 
     @staticmethod
     def search(request):
@@ -19,9 +20,9 @@ class Userview:
         types = request.GET['type']
         types = types.strip()
         if types == '' or types == 'ALL':
-            users = DataBase(BASE_NAME).take_users()
+            users = DataBaseUsers(BASE_NAME).take_users()
         else:
-            users = DataBase(BASE_NAME).take_users(types, q)
+            users = DataBaseUsers(BASE_NAME).take_users(types, q)
         if types == 'ONE':
             q = list(q.split(';'))[0]
         return render(request, 'search_results_many.html',
@@ -36,9 +37,9 @@ class UserActions:
 
     @staticmethod
     def inited_user(request):
-        DataBase(BASE_NAME).init_data_base()
+        DataBaseUsers(BASE_NAME).init_data_base()
         return render(request, 'inited_user.html',
-                      {'user': DataBase(BASE_NAME).init_user(request.POST['Name'], int(request.POST['Age']))
+                      {'user': DataBaseUsers(BASE_NAME).init_user(request.POST['Name'], int(request.POST['Age']))
                        }
                       )
 
@@ -48,11 +49,38 @@ class UserActions:
 
     @staticmethod
     def deleted_user(request):
-        user = DataBase(BASE_NAME).del_user(int(request.POST['ids']), request.POST['Name'])
+        user = DataBaseUsers(BASE_NAME).del_user(int(request.POST['ids']), request.POST['Name'])
         if user.id != -1:
             return render(request, 'deleted_user.html', {'user': user, 'type': True})
         else:
             return render(request, 'deleted_user.html', {'user': user, 'type': False})
+
+
+class MessageViewActions:
+
+    @staticmethod
+    def init_show_messages(request):
+        return render(request, 'init_show_messages.html')
+
+    @staticmethod
+    def show_messages(request):
+        table = DataBaseMessages(MESSAGE_BASE).show_messages(request.GET['idhost'], request.GET['idfriend'])
+        return render(request, 'show_messages.html', {'idhost': request.GET['idhost'],
+                                                      'hostname': DataBaseUsers(BASE_NAME).take_user_name(
+                                                          request.GET['idhost']),
+                                                      'idfriend': request.GET['idfriend'], 'table': table,
+                                                      'friendname': DataBaseUsers(BASE_NAME).take_user_name(
+                                                          request.GET['idfriend'])})
+
+    @staticmethod
+    def send_message(request):
+        return render(request, 'send_message.html')
+
+    @staticmethod
+    def sent_message(request):
+        DataBaseMessages(MESSAGE_BASE).send_message(request.POST['idhost'], request.POST['idfriend'],
+                                                    request.POST['message'])
+        return render(request, 'sent_message.html')
 
 
 def index(request):

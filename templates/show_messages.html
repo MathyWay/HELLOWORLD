@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search-result</title>
+    <title>Messages</title>
     <base href="http://127.0.0.1:8000/" target="_self">
 </head>
 <body>
@@ -15,18 +15,26 @@
     <li><a href="send_message"> Send message</a></li>
     <li><a href="init_show_messages"> Show message</a></li>
 </ul>
-<p>You searched for: <strong>{{ query }}</strong></p>
+<p>Messages to
+    {% if hostname != -1 %} <strong>{{ hostname }}</strong>
+    {% else %} <strong>{{ idhost }}</strong>
+    {% endif %}
+    from
+    {% if friendname != -1 %} <strong>{{ friendname }}</strong>
+    {% else %} <strong>{{ idfriend }}</strong>
+    {% endif %}
+</p>
 
-{% if users %}
-    <p>Found user(s)</p>
-    {% for user in users %}
+{% if table %}
+    <p>Messages</p>
+    {% for message in table %}
     <ul>
-        <li>id: {{ user.0 }}</li> <li>Name: {{ user.1 }}</li> <li>Age: {{ user.2 }}</li>
+        <li>id: {{ idfriend }}</li> <li>Message: {{ message.0 }}</li> <li>Type: {{ message.1 }}</li>
     </ul>
     {% endfor %}
 
 {% else %}
-    <p>There are no such users</p>
+    <p>There are no messages with this user</p>
 {% endif %}
 </body>
 </html>

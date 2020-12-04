@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Init-user</title>
+    <title>Search</title>
     <base href="http://127.0.0.1:8000/" target="_self">
 </head>
 <body>
@@ -15,16 +15,18 @@
     <li><a href="send_message"> Send message</a></li>
     <li><a href="init_show_messages"> Show message</a></li>
 </ul>
-    <form action="/inited/" method="post"> {% csrf_token %}
-        <p> Name:<label>
-            <input type="text" name="Name">
-        </label>
+    <form action="/show_messages/" method="get">
+        <p> Show messages to (id):
+            <label>
+                <input type="text" name="idhost" >
+            </label>
         </p>
-        <p> Age:<label>
-            <input type="number" name="Age">
-        </label>
+        <p> From (id):
+            <label>
+                <input type="text" name="idfriend">
+            </label>
         </p>
-        <input type="submit" value="Init">
+        <input type="submit" value="Show">
     </form>
 </body>
 </html>

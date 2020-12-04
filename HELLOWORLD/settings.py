@@ -65,6 +65,13 @@ WSGI_APPLICATION = 'HELLOWORLD.wsgi.application'
 CREATE_TABLE_SQL = """CREATE TABLE IF NOT EXISTS users (name text not null, age int not null)"""
 INSERT_USER_SQL = 'INSERT INTO users (name, age) values (?, ?)'
 DELETE_USER_SQL = 'DELETE from users where rowid = (?) and name = (?)'
+SELECT_USER_SQL = 'SELECT name from users where rowid = (?)'
+
+CREATE_MESSAGE_TABLE_SQL = """CREATE TABLE IF NOT EXISTS mes{} (idfriend text not null,
+                                                        messagetype text, message text)"""
+SEND_MESSAGE_SQL = 'INSERT INTO mes{} values (?, ?, ?)'
+SHOW_MESSAGES_SQL = 'SELECT message, messagetype from mes{0} where idfriend = {1}'
+MESSAGE_BASE = 'messagebase.db'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

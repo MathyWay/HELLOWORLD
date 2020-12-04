@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Init-user</title>
+    <title>Message</title>
     <base href="http://127.0.0.1:8000/" target="_self">
 </head>
 <body>
@@ -15,16 +15,4 @@
     <li><a href="send_message"> Send message</a></li>
     <li><a href="init_show_messages"> Show message</a></li>
 </ul>
-    <form action="/inited/" method="post"> {% csrf_token %}
-        <p> Name:<label>
-            <input type="text" name="Name">
-        </label>
-        </p>
-        <p> Age:<label>
-            <input type="number" name="Age">
-        </label>
-        </p>
-        <input type="submit" value="Init">
-    </form>
-</body>
-</html>
+<p>The message is sent</p>

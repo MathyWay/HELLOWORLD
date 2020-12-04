@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Init-user</title>
+    <title>Send message</title>
     <base href="http://127.0.0.1:8000/" target="_self">
 </head>
 <body>
@@ -13,18 +13,22 @@
     <li><a href="init-user"> Edit new user</a></li>
     <li><a href="delete-init"> Delete user</a></li>
     <li><a href="send_message"> Send message</a></li>
-    <li><a href="init_show_messages"> Show message</a></li>
+    <li><a href="init_show_messages"> Show messages</a></li>
+
 </ul>
-    <form action="/inited/" method="post"> {% csrf_token %}
-        <p> Name:<label>
-            <input type="text" name="Name">
+    <form action="/sent_message/" method="post"> {% csrf_token %}
+        <p> From:<label>
+            <input type="number" name="idfriend">
         </label>
         </p>
-        <p> Age:<label>
-            <input type="number" name="Age">
+        <p> To:<label>
+            <input type="number" name="idhost">
         </label>
         </p>
-        <input type="submit" value="Init">
+        <p> Message:<label>
+            <input type="text" name="message">
+        </label>
+        <input type="submit" value="Send">
     </form>
 </body>
 </html>
