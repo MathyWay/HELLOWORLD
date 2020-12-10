@@ -17,17 +17,12 @@
 
 </ul>
     <form action="/sent_message/" method="post"> {% csrf_token %}
-        <p> From:<label>
-            <input type="number" name="idfriend">
-        </label>
-        </p>
-        <p> To:<label>
-            <input type="number" name="idhost">
-        </label>
-        </p>
-        <p> Message:<label>
+        <p> Message:</p>
+        <label>
             <input type="text" name="message">
         </label>
+        <input type="hidden" name="idhost" value="{{ idhost }}">
+        <input type="hidden" name="idfriend" value="{{ idfriend }}">
         <input type="submit" value="Send">
     </form>
 </body>

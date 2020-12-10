@@ -20,9 +20,14 @@
 {% if users %}
     <p>Found user(s)</p>
     {% for user in users %}
-    <ul>
-        <li>id: {{ user.0 }}</li> <li>Name: {{ user.1 }}</li> <li>Age: {{ user.2 }}</li>
-    </ul>
+        <ul>
+            <li>id: {{ user.0 }}</li> <li>Name: {{ user.1 }}</li> <li>Age: {{ user.2 }}</li>
+        </ul>
+        <form action="added_friend/" method="post"> {% csrf_token %}
+            <input type="hidden" name="idfriend" value="{{ user.0 }}">
+            <input type="hidden" name="idhost" value="{{ idhost }}">
+            <input type="submit" value="Add friend!">
+        </form>
     {% endfor %}
 
 {% else %}

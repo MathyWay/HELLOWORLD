@@ -62,16 +62,25 @@ WSGI_APPLICATION = 'HELLOWORLD.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-CREATE_TABLE_SQL = """CREATE TABLE IF NOT EXISTS users (name text not null, age int not null)"""
-INSERT_USER_SQL = 'INSERT INTO users (name, age) values (?, ?)'
+CREATE_TABLE_SQL = """CREATE TABLE IF NOT EXISTS users (name text not null, password text not null)"""
+INSERT_USER_SQL = 'INSERT INTO users (name, password) values (?, ?)'
 DELETE_USER_SQL = 'DELETE from users where rowid = (?) and name = (?)'
 SELECT_USER_SQL = 'SELECT name from users where rowid = (?)'
+CHECK_USER_SQL = 'SELECT rowid, name, password from users where name = (?) and password = (?)'
 
 CREATE_MESSAGE_TABLE_SQL = """CREATE TABLE IF NOT EXISTS mes{} (idfriend text not null,
                                                         messagetype text, message text)"""
 SEND_MESSAGE_SQL = 'INSERT INTO mes{} values (?, ?, ?)'
-SHOW_MESSAGES_SQL = 'SELECT message, messagetype from mes{0} where idfriend = {1}'
+SHOW_MESSAGES_SQL = 'SELECT message, messagetype from mes{} where idfriend = (?)'
 MESSAGE_BASE = 'messagebase.db'
+
+INIT_FRIENDS_TABLE_SQL = """CREATE TABLE IF NOT EXISTS fri{} (idfriend int not null, friendname text not null)"""
+ADD_FRIEND_SQL = 'INSERT INTO fri{} values (?,?)'
+DELETE_FRIEND_SQL = 'DELETE FROM fri{} where idfriend = (?)'
+SELECT_FRIENDS_SQL = 'SELECT idfriend, friendname FROM fri{}'
+FRIENDS_BASE = 'friendsbase.db'
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Friends list</title>
+</head>
+<body>
+<ul>
+    <li><a href=""> Home</a></li>
+    <li><a href="/users/show/"> Show all users</a></li>
+    <li><a href="/search-form/"> Searching users</a></li>
+    <li><a href="/init-user/"> Edit new user</a></li>
+    <li><a href="/delete-init/"> Delete user</a></li>
+    <li><a href="/init_show_messages/"> Show message</a></li>
+</ul>
+
+{% if friends %}
+    {% for friend in friends %}
+        <ul>
+            <li>id: {{ friend.0 }}</li> <li>Name: {{ friend.1 }}</li>
+            <li>
+                <form action="/send_message/" method="post"> {% csrf_token %}
+                    <input type="hidden" name="idfriend" value="{{ friend.0 }}">
+                    <p>{{ idhost }}</p>
+                    <input type="hidden" name="idhost" value="{{ idhost }}">
+                    <input type="submit" value="Init message">
+                </form>
+            </li>
+        </ul>
+    {% endfor %}
+{% endif %}
+
+
+</body>
+</html>

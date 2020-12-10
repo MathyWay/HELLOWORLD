@@ -6,6 +6,19 @@
     <base href="http://127.0.0.1:8000/" target="_self">
 </head>
 <body>
+<p>There is no such user, or you wrote wrong Password</p>
+<p>Try again</p>
+<form action="entering_user" method="post"> {% csrf_token %}
+        <p> Name:<label>
+            <input type="text" name="Name">
+        </label>
+        </p>
+        <p> Password:<label>
+            <input type="text" name="Password">
+        </label>
+        </p>
+        <input type="submit" value="Init">
+    </form>
 <ul>
     <li><a href=""> Home</a></li>
     <li><a href="users/show"> Show all users</a></li>

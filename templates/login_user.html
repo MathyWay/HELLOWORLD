@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search-result</title>
+    <title>Init-user</title>
     <base href="http://127.0.0.1:8000/" target="_self">
 </head>
 <body>
@@ -14,15 +14,18 @@
     <li><a href="delete-init"> Delete user</a></li>
     <li><a href="send_message"> Send message</a></li>
     <li><a href="init_show_messages"> Show message</a></li>
+    <li><a href="login_user"> Login</a></li>
 </ul>
-<p>You searched for: <strong>{{ query }}</strong></p>
-
-{% if users %}
-    <ul>
-        <li>id: {{ users.id }}</li> <li>Name: {{ users.Name }}</li>
-    </ul>
-{% else %}
-    <p>No books matched your search criteria.</p>
-{% endif %}
+    <form action="/entering_user/" method="get">
+        <p> Name:<label>
+            <input type="text" name="Name">
+        </label>
+        </p>
+        <p> Password:<label>
+            <input type="text" name="Password">
+        </label>
+        </p>
+        <input type="submit" value="Login!">
+    </form>
 </body>
 </html>

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Inited-user</title>
+    <meta charset="utf-8" />
+    <title>Added friend</title>
     <base href="http://127.0.0.1:8000/" target="_self">
 </head>
 <body>
+<p>You added friend {{ friendname }} with id {{ idfriend }}</p>
 <ul>
     <li><a href=""> Home</a></li>
     <li><a href="users/show"> Show all users</a></li>
@@ -14,10 +15,7 @@
     <li><a href="delete-init"> Delete user</a></li>
     <li><a href="send_message"> Send message</a></li>
     <li><a href="init_show_messages"> Show message</a></li>
+    <li><a href="login_user"> Login</a></li>
 </ul>
-<p>You inited user:</p>
-<ul>
-    <li>id: {{ user.id }}</li>
-    <li>Name: {{ user.Name }}</li>
-    <li>Password: {{ user.Password }}</li>
-</ul>
+</body>
+</html>

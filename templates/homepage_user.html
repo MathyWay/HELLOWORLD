@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome!</title>
+    <base href="http://127.0.0.1:8000/" target="_self">
+</head>
+<body>
+<ul>
+    <li><a href=""> Home</a></li>
+    <li><a href="users/show"> Show all users</a></li>
+    <li><a href="search-form"> Searching users</a></li>
+    <li><a href="init-user"> Edit new user</a></li>
+    <li><a href="delete-init"> Delete user</a></li>
+    <li><a href="send_message"> Send message</a></li>
+    <li><a href="init_show_messages"> Show message</a></li>
+</ul>
+<p>Hello : {{ User.Name }}</p>
+<p>Menu: </p>
+<ul>
+    <li><form action="search_for_friends/" method="post">{% csrf_token %}
+        <input type="hidden" name="idhost" value="{{ User.id }}">
+        <input type="submit" value="Search for friends">
+    </form></li>
+    <li><form action="show_friends/" method="post">{% csrf_token %}
+        <input type="hidden" name="idhost" value="{{ User.id }}">
+        <input type="submit" value="Show friends">
+    </form></li>
+    <li><form action="show_messages/" method="post">{% csrf_token %}
+        <input type="hidden" name="idhost" value="{{ User.id }}">
+        <input type="text" name="idfriend">
+        <input type="submit" value="My messages">
+    </form></li>
+    <li><form action="send_message/" method="post">{% csrf_token %}
+        <input type="hidden" name="idhost" value="{{ User.id }}">
+        <input type="submit" value="Create message">
+    </form></li>
+</ul>
